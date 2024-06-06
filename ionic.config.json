@@ -1,0 +1,7 @@
+{
+  "name": "job-board",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
