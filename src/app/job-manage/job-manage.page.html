@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Manage Jobs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Job Title</ion-label>
+    <ion-input [(ngModel)]="title"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Job Description</ion-label>
+    <ion-input [(ngModel)]="description"></ion-input>
+  </ion-item>
+  <ion-button expand="full" (click)="addJob()" *ngIf="!selectedJob">Add Job</ion-button>
+  <ion-button expand="full" (click)="updateJob()" *ngIf="selectedJob">Update Job</ion-button>
+  <ion-button expand="full" (click)="clearSelection()" *ngIf="selectedJob">Clear</ion-button>
+
+  <ion-list>
+    <ion-item *ngFor="let job of jobs" (click)="selectJob(job)">
+      <ion-label>
+        <h2>{{ job.title }}</h2>
+        <p>{{ job.description }}</p>
+      </ion-label>
+      <ion-button slot="end" color="danger" (click)="deleteJob(job.id)">Delete</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
