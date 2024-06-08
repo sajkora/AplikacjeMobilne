@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Job } from '../job-details/job.model';
 import { JobService } from '../services/job.service';
-
-interface Job {
-  id: number;
-  title: string;
-  description: string;
-}
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-job-list',
@@ -13,11 +10,15 @@ interface Job {
   styleUrls: ['./job-list.page.scss'],
 })
 export class JobListPage implements OnInit {
-  jobs: Job[] = [];
+  jobs$: Observable<Job[]>;
 
-  constructor(private jobService: JobService) { }
+  constructor(private router: Router, private jobService: JobService) {
+    this.jobs$ = this.jobService.jobs$;
+  }
 
-  ngOnInit() {
-    this.jobs = this.jobService.getJobs();
+  ngOnInit() {}
+
+  openJobDetail(job: Job) {
+    this.router.navigate(['/job-details', job.id]);
   }
 }

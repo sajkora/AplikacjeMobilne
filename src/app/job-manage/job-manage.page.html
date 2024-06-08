@@ -5,25 +5,56 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-label position="floating">Job Title</ion-label>
-    <ion-input [(ngModel)]="title"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Job Description</ion-label>
-    <ion-input [(ngModel)]="description"></ion-input>
-  </ion-item>
-  <ion-button expand="full" (click)="addJob()" *ngIf="!selectedJob">Add Job</ion-button>
-  <ion-button expand="full" (click)="updateJob()" *ngIf="selectedJob">Update Job</ion-button>
-  <ion-button expand="full" (click)="clearSelection()" *ngIf="selectedJob">Clear</ion-button>
+  <form (ngSubmit)="addJob()" *ngIf="!selectedJob">
+    <ion-item>
+      <ion-label position="floating">Title</ion-label>
+      <ion-input [(ngModel)]="title" name="title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-input [(ngModel)]="description" name="description"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Company</ion-label>
+      <ion-input [(ngModel)]="company" name="company"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Location</ion-label>
+      <ion-input [(ngModel)]="location" name="location"></ion-input>
+    </ion-item>
+    <ion-button expand="full" type="submit">Add Job</ion-button>
+  </form>
+
+  <form (ngSubmit)="updateJob()" *ngIf="selectedJob">
+    <ion-item>
+      <ion-label position="floating">Title</ion-label>
+      <ion-input [(ngModel)]="title" name="title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-input [(ngModel)]="description" name="description"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Company</ion-label>
+      <ion-input [(ngModel)]="company" name="company"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Location</ion-label>
+      <ion-input [(ngModel)]="location" name="location"></ion-input>
+    </ion-item>
+    <ion-button expand="full" type="submit">Update Job</ion-button>
+    <ion-button expand="full" color="danger" (click)="clearForm()">Cancel</ion-button>
+  </form>
 
   <ion-list>
-    <ion-item *ngFor="let job of jobs" (click)="selectJob(job)">
-      <ion-label>
+    <ion-item *ngFor="let job of jobs$ | async">
+      <ion-label (click)="selectJob(job)">
         <h2>{{ job.title }}</h2>
+        <p>{{ job.company }} - {{ job.location }}</p>
         <p>{{ job.description }}</p>
       </ion-label>
-      <ion-button slot="end" color="danger" (click)="deleteJob(job.id)">Delete</ion-button>
+      <ion-button fill="clear" (click)="selectJob(job)">Edit</ion-button>
+      <ion-button fill="clear" color="danger" (click)="deleteJob(job.id)">Delete</ion-button>
     </ion-item>
   </ion-list>
 </ion-content>

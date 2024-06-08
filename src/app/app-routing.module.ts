@@ -7,13 +7,12 @@ const routes: Routes = [
   { path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule) },
   { path: 'job-list', loadChildren: () => import('./job-list/job-list.module').then(m => m.JobListPageModule) },
   { path: 'job-manage', loadChildren: () => import('./job-manage/job-manage.module').then(m => m.JobManagePageModule) },
+  { path: 'job-details/:id', loadChildren: () => import('./job-details/job-details.module').then(m => m.JobDetailsPageModule) },
 ];
 
-
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
-  ],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
+

@@ -6,9 +6,10 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let job of jobs">
+    <ion-item *ngFor="let job of jobs$ | async" (click)="openJobDetail(job)">
       <ion-label>
         <h2>{{ job.title }}</h2>
+        <p>{{ job.company }} - {{ job.location }}</p>
         <p>{{ job.description }}</p>
       </ion-label>
     </ion-item>

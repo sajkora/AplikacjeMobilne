@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JobService } from '../services/job.service';
-
-interface Job {
-  id: number;
-  title: string;
-  description: string;
-}
+import { Job } from '../job-details/job.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-job-manage',
@@ -13,23 +9,23 @@ interface Job {
   styleUrls: ['./job-manage.page.scss'],
 })
 export class JobManagePage implements OnInit {
-  jobs: Job[] = [];
+  jobs$: Observable<Job[]>;
   title: string = '';
   description: string = '';
+  company: string = '';
+  location: string = '';
   selectedJob: Job | null = null;
 
-  constructor(private jobService: JobService) { }
-
-  ngOnInit() {
-    this.jobs = this.jobService.getJobs();
+  constructor(private jobService: JobService) {
+    this.jobs$ = this.jobService.jobs$;
   }
 
+  ngOnInit() {}
+
   addJob() {
-    if (this.title && this.description) {
-      this.jobService.addJob(this.title, this.description);
-      this.title = '';
-      this.description = '';
-      this.jobs = this.jobService.getJobs();
+    if (this.title && this.description && this.company && this.location) {
+      this.jobService.addJob(this.title, this.description, this.company, this.location);
+      this.clearForm();
     }
   }
 
@@ -37,26 +33,26 @@ export class JobManagePage implements OnInit {
     this.selectedJob = job;
     this.title = job.title;
     this.description = job.description;
+    this.company = job.company;
+    this.location = job.location;
   }
 
   updateJob() {
     if (this.selectedJob) {
-      this.jobService.updateJob(this.selectedJob.id, this.title, this.description);
-      this.selectedJob = null;
-      this.title = '';
-      this.description = '';
-      this.jobs = this.jobService.getJobs();
+      this.jobService.updateJob(this.selectedJob.id, this.title, this.description, this.company, this.location);
+      this.clearForm();
     }
   }
 
   deleteJob(id: number) {
     this.jobService.deleteJob(id);
-    this.jobs = this.jobService.getJobs();
   }
 
-  clearSelection() {
+  clearForm() {
     this.selectedJob = null;
     this.title = '';
     this.description = '';
+    this.company = '';
+    this.location = '';
   }
 }
