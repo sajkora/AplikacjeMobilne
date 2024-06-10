@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'job-list', loadChildren: () => import('./job-list/job-list.module').then(m => m.JobListPageModule) },
   { path: 'job-manage', loadChildren: () => import('./job-manage/job-manage.module').then(m => m.JobManagePageModule) },
   { path: 'job-details/:id', loadChildren: () => import('./job-details/job-details.module').then(m => m.JobDetailsPageModule) },
+  { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule) },
 ];
 
 @NgModule({
@@ -15,4 +16,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
-

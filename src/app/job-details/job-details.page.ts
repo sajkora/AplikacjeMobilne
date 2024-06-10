@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { JobService } from '../services/job.service';
-import { Job } from './job.model';
+
+interface Job {
+  title: string;
+  company: string;
+  location: string;
+  description: string;
+  applications: Array<{ name: string, skills: string }>; // Add applications property
+}
 
 @Component({
   selector: 'app-job-details',
@@ -9,24 +15,31 @@ import { Job } from './job.model';
   styleUrls: ['./job-details.page.scss'],
 })
 export class JobDetailsPage implements OnInit {
-  job: Job | undefined;
+  jobId: string | null = null;
+  userRole: string | null = null;
+  job: Job | null = null; // Define the job property
 
-  constructor(private route: ActivatedRoute, private jobService: JobService) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    const jobIdParam = this.route.snapshot.paramMap.get('id');
-    if (jobIdParam) {
-      const jobId = +jobIdParam;
-      if (!isNaN(jobId)) {
-        this.job = this.jobService.getJob(jobId);
-      } else {
-        // Handle the error case, e.g., navigate back to job list or show an error message
-        console.error('Job ID is not a number');
-      }
-    } else {
-      // Handle the error case where jobIdParam is null
-      console.error('Job ID param is null');
-    }
+    this.jobId = this.route.snapshot.paramMap.get('id');
+    this.userRole = localStorage.getItem('userRole');
+
+    // Mock job data - replace this with actual data fetching logic
+    this.job = {
+      title: 'Software Developer',
+      company: 'Tech Company',
+      location: 'New York',
+      description: 'A job description goes here.',
+      applications: [
+        { name: 'John Doe', skills: 'Angular, Ionic' },
+        { name: 'Jane Smith', skills: 'React, Node.js' }
+      ]
+    };
+  }
+
+  applyForJob() {
+    console.log('Applied for job', this.jobId);
+    // Here you would handle the application logic, such as storing the application details
   }
 }
-

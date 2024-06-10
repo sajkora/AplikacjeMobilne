@@ -1,8 +1,5 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/job-list"></ion-back-button>
-    </ion-buttons>
     <ion-title>{{ job?.title }}</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,7 +9,22 @@
   <p>Company: {{ job.company }}</p>
   <p>Location: {{ job.location }}</p>
   <p>{{ job.description }}</p>
+  <ion-button *ngIf="userRole === 'employee'" expand="full" (click)="applyForJob()">Apply for this Job</ion-button>
+
+  <!-- Display applications if the user is an employer -->
+  <ion-list *ngIf="userRole === 'employer'">
+    <ion-list-header>
+      <ion-label>Candidates</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let application of job.applications">
+      <ion-label>
+        <h2>{{ application.name }}</h2>
+        <p>Skills: {{ application.skills }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
+
 <ion-content *ngIf="!job">
-  <p>Job not found.</p>
+  <p>Loading job details...</p>
 </ion-content>
