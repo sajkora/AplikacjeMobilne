@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Job } from '../job-details/job.model';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Job } from '../job-details/job.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,7 @@ export class JobService {
   }
 
   addJob(title: string, description: string, company: string, location: string) {
-    this.jobs.push({ id: this.jobIdCounter++, title, description, company, location });
+    this.jobs.push({ id: this.jobIdCounter++, title, description, company, location, applications: [] });
     this.saveJobs();
     this.jobsSubject.next(this.jobs);  // Notify subscribers of the updated job list
   }
@@ -45,6 +45,15 @@ export class JobService {
       job.description = description;
       job.company = company;
       job.location = location;
+      this.saveJobs();
+      this.jobsSubject.next(this.jobs);  // Notify subscribers of the updated job list
+    }
+  }
+
+  updateJobApplications(id: number, applications: Array<{ name: string, skills: string }>) {
+    const job = this.jobs.find(j => j.id === id);
+    if (job) {
+      job.applications = applications;
       this.saveJobs();
       this.jobsSubject.next(this.jobs);  // Notify subscribers of the updated job list
     }

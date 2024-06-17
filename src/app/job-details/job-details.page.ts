@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-interface Job {
-  title: string;
-  company: string;
-  location: string;
-  description: string;
-  applications: Array<{ name: string, skills: string }>; // Add applications property
-}
+import { JobService } from '../services/job.service';
+import { Job } from '../job-details/job.model';
 
 @Component({
   selector: 'app-job-details',
@@ -15,31 +9,64 @@ interface Job {
   styleUrls: ['./job-details.page.scss'],
 })
 export class JobDetailsPage implements OnInit {
-  jobId: string | null = null;
+  jobId: number | null = null;
   userRole: string | null = null;
-  job: Job | null = null; // Define the job property
+  job: Job | null = null;
+  hasApplied: boolean = false;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private jobService: JobService) { }
 
   ngOnInit() {
-    this.jobId = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id !== null) {
+      this.jobId = +id; // Convert string to number
+      this.job = this.jobService.getJob(this.jobId) || null;
+    }
     this.userRole = localStorage.getItem('userRole');
 
-    // Mock job data - replace this with actual data fetching logic
-    this.job = {
-      title: 'Software Developer',
-      company: 'Tech Company',
-      location: 'New York',
-      description: 'A job description goes here.',
-      applications: [
-        { name: 'John Doe', skills: 'Angular, Ionic' },
-        { name: 'Jane Smith', skills: 'React, Node.js' }
-      ]
-    };
+    if (!this.job) {
+      // Handle case where job is not found
+      console.log('Job not found');
+    } else {
+      this.checkIfApplied();
+    }
   }
 
-  applyForJob() {
-    console.log('Applied for job', this.jobId);
-    // Here you would handle the application logic, such as storing the application details
+  checkIfApplied() {
+    const appliedJobs = JSON.parse(localStorage.getItem('appliedJobs') || '[]');
+    this.hasApplied = appliedJobs.includes(this.jobId);
+  }
+
+  async applyForJob() {
+    const profileString = localStorage.getItem('profile');
+    if (profileString === null) {
+      console.log('Profile not found in localStorage');
+      return;
+    }
+
+    const profile = JSON.parse(profileString);
+    if (!profile.name || !profile.skills) {
+      console.log('Incomplete profile data');
+      return;
+    }
+
+    if (this.job !== null && !this.hasApplied) {
+      this.job.applications = this.job.applications || [];
+      this.job.applications.push({
+        name: profile.name,
+        skills: profile.skills
+      });
+      this.jobService.updateJobApplications(this.job.id, this.job.applications);  // Update job in storage
+
+      // Add applied job to employee's profile
+      const appliedJobs = JSON.parse(localStorage.getItem('appliedJobs') || '[]');
+      if (!appliedJobs.includes(this.job.id)) {
+        appliedJobs.push(this.job.id);
+        localStorage.setItem('appliedJobs', JSON.stringify(appliedJobs));
+      }
+
+      this.hasApplied = true;
+      console.log('Applied for job', this.jobId);
+    }
   }
 }

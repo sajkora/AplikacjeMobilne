@@ -7,17 +7,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./side-menu.component.scss'],
 })
 export class SideMenuComponent implements OnInit {
-  userRole: string | null = null; // Initialize with default value
+  userRole: string | null = null;
 
   constructor(private router: Router) { }
 
   ngOnInit() {
+    this.checkUserRole();
+  }
+
+  checkUserRole() {
     this.userRole = localStorage.getItem('userRole');
-    console.log('User role from localStorage:', this.userRole); // Add this line
+    console.log('User role from localStorage:', this.userRole);
+  }
+
+  isLoggedIn(): boolean {
+    return this.userRole !== null;
   }
 
   logout() {
-    localStorage.clear();
+    localStorage.removeItem('userRole'); // Clear only the user role
+    this.userRole = null; // Reset userRole on logout
     this.router.navigate(['/login']);
   }
 }

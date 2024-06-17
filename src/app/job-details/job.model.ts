@@ -1,8 +1,10 @@
 export interface Job {
-    id: number;
-    title: string;
-    description: string;
-    company: string;
-    location: string;
-  }
+  id: number;
+  title: string;
+  company: string;
+  location: string;
+  description: string;
+  applications?: Array<{ name: string, skills: string }>;
+}
+
   

@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
     <ion-title>Profile</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -31,4 +34,16 @@
   </ion-item>
 
   <ion-button expand="full" (click)="saveProfile()">Save</ion-button>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Applied Jobs</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let job of appliedJobs">
+      <ion-label>
+        <h2>{{ job.title }}</h2>
+        <p>{{ job.company }} - {{ job.location }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

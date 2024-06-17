@@ -1,21 +1,14 @@
-<ion-menu side="end" menuId="first" contentId="main-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-list>
-      <!-- For Employees -->
-      <ion-item *ngIf="userRole === 'employee'" routerLink="/profile" routerDirection="root">Profile</ion-item>
-      <ion-item *ngIf="userRole === 'employee'" routerLink="/job-list" routerDirection="root">Job List</ion-item>
+<ion-content>
+  <ion-list *ngIf="isLoggedIn()">
+    <!-- For Employees -->
+    <ion-item *ngIf="userRole === 'employee'" routerLink="/profile" routerDirection="root">Profile</ion-item>
+    <ion-item *ngIf="userRole === 'employee'" routerLink="/job-list" routerDirection="root">Job List</ion-item>
 
-      <!-- For Employers -->
-      <ion-item *ngIf="userRole === 'employer'" routerLink="/job-list" routerDirection="root">Job List</ion-item>
-      <ion-item *ngIf="userRole === 'employer'" routerLink="/job-manage" routerDirection="root">Manage Jobs</ion-item>
+    <!-- For Employers -->
+    <ion-item *ngIf="userRole === 'employer'" routerLink="/job-list" routerDirection="root">Job List</ion-item>
+    <ion-item *ngIf="userRole === 'employer'" routerLink="/job-manage" routerDirection="root">Manage Jobs</ion-item>
 
-      <!-- Common -->
-      <ion-item (click)="logout()">Logout</ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu>
+    <!-- Common -->
+    <ion-item (click)="logout()">Logout</ion-item>
+  </ion-list>
+</ion-content>
