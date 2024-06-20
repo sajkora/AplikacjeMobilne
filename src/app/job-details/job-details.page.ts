@@ -56,9 +56,8 @@ export class JobDetailsPage implements OnInit {
         name: profile.name,
         skills: profile.skills
       });
-      this.jobService.updateJobApplications(this.job.id, this.job.applications);  // Update job in storage
+      this.jobService.updateJobApplications(this.job.id, this.job.applications); 
 
-      // Add applied job to employee's profile
       const appliedJobs = JSON.parse(localStorage.getItem('appliedJobs') || '[]');
       if (!appliedJobs.includes(this.job.id)) {
         appliedJobs.push(this.job.id);

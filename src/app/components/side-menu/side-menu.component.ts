@@ -25,8 +25,8 @@ export class SideMenuComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('userRole'); // Clear only the user role
-    this.userRole = null; // Reset userRole on logout
+    localStorage.removeItem('userRole'); 
+    this.userRole = null; 
     this.router.navigate(['/login']);
   }
 }

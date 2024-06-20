@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 export class RegisterPage {
   username: string = '';
   password: string = '';
-  role: string = 'employee'; // Default role
+  role: string = 'employee'; 
 
   constructor(private authService: AuthService, private router: Router) { }
 

@@ -46,7 +46,7 @@ export class JobService {
       job.company = company;
       job.location = location;
       this.saveJobs();
-      this.jobsSubject.next(this.jobs);  // Notify subscribers of the updated job list
+      this.jobsSubject.next(this.jobs);  
     }
   }
 
@@ -55,13 +55,13 @@ export class JobService {
     if (job) {
       job.applications = applications;
       this.saveJobs();
-      this.jobsSubject.next(this.jobs);  // Notify subscribers of the updated job list
+      this.jobsSubject.next(this.jobs);  
     }
   }
 
   deleteJob(id: number) {
     this.jobs = this.jobs.filter(j => j.id !== id);
     this.saveJobs();
-    this.jobsSubject.next(this.jobs);  // Notify subscribers of the updated job list
+    this.jobsSubject.next(this.jobs); 
   }
 }
